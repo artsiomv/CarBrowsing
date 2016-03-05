@@ -44,15 +44,8 @@ public class Dealer extends JPanel{
 			}
 		});
 		panel.add(btnViewMyPostings);
-		
-		JButton btnDeleteListing = new JButton("Delete listing");
-		btnDeleteListing.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				DeleteListing delete = new DeleteListing();
-			}
-		});
-		panel.add(btnDeleteListing);
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 		JPanel panel1 = new JPanel();

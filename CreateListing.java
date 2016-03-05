@@ -39,7 +39,6 @@ public class CreateListing extends JPanel {
 	 * @throws SQLException 
 	 */
 	public CreateListing(final String login) throws SQLException {
-		System.out.println(login);
 		final JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -198,7 +197,6 @@ public class CreateListing extends JPanel {
 		fuelList.setVisibleRowCount(1);
 		scrollPane1.setViewportView(fuelList);
 		
-		
 		scrollPane4 = new JScrollPane();
 		scrollPane4.setBounds(145, 208, 209, 20);
 		panel_1.add(scrollPane4);
@@ -219,6 +217,7 @@ public class CreateListing extends JPanel {
 		scrollPane5.setViewportView(formFactorList);
 		
 		frame.setSize(400, 500);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 }

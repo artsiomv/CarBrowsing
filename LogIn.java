@@ -75,7 +75,7 @@ public class LogIn extends JPanel
         		if(c[i].username.equals(inputLogIn) && c[i].password.equals(password)) {
         			logIn = true;
         			if(c[i].idNum.contains("U")) {
-        				User user = new User(inputLogIn);
+        				User user = new User(c[i].idNum);
         			}
         			else if (c[i].idNum.contains("D")) {
         				Dealer deal = new Dealer(c[i].idNum);
@@ -124,6 +124,7 @@ public class LogIn extends JPanel
  
         //Display the window.
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

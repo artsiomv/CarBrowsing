@@ -1,7 +1,6 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -13,23 +12,32 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 
-public class ViewListings extends JPanel {
+public class NarrowSearch extends JPanel {
 
 	/**
 	 * Create the panel.
 	 * @throws SQLException 
 	 */
-	public ViewListings(final String login) throws SQLException {
+	public NarrowSearch(String choice1, String choice2, final String login) throws SQLException {
+		String choiceOne = "";
+		String choiceTwo = "";
+		choiceTwo = choice2;
+		if(choice1 == "Title") choiceOne = "title";
+		else if(choice1 == "Make") choiceOne = "make";
+		else if(choice1 == "Transmission") choiceOne = "transmission";
+		else if(choice1 == "Fuel Type") choiceOne = "fuelType";
+		else if(choice1 == "Form Factor") choiceOne = "formFactor";
+	
+		int numOfCars = DBConnect.getVehicleCount( "SELECT COUNT(*) FROM VehicleInfo WHERE "+choiceOne+" = '"+choiceTwo+"';");
+		
 		final JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(null);
 		
-		int numOfCars = DBConnect.getVehicleCount( "SELECT COUNT(*) FROM VehicleInfo WHERE dealID = '"+login+"';");
-		String[] nums = DBConnect.getType( "SELECT listID FROM VehicleInfo WHERE dealID = '"+login+"';");
+		String[] nums = DBConnect.getType( "SELECT listID FROM VehicleInfo WHERE "+choiceOne+" = '"+choiceTwo+"';");
 		final int[] numss = new int[nums.length];
 		for(int i = 0; i < nums.length; i++) {
 			numss[i] = Integer.parseInt(nums[i]);
 		}
-		
 		JPanel panel = new JPanel();
 		JScrollPane scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.getViewport();
@@ -40,27 +48,28 @@ public class ViewListings extends JPanel {
 		
 		for(int carNum = 1; carNum <= numss.length; carNum++) {
 			final int i = carNum;
-			JButton btnDelete = new JButton("DELETE");
-			btnDelete.setBounds(517, 57+(100*(i-1)), 100, 23);
-			btnDelete.addActionListener(new ActionListener() {
+			final String[] exists = DBConnect.getType( "SELECT listID FROM `History` WHERE listID = "+numss[i-1]+" && userID = '"+login+"';");
+			final JButton btnAdd = new JButton("ADD TO FAVORITES");
+			btnAdd.setBounds(517, 57+(100*(i-1)), 200, 23);
+			btnAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						Object[] options = { "Yes", "No" };
-					    int n = JOptionPane.showOptionDialog(new JFrame(),
-					            "Are you sure?", "",
-					            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-					            options, options[1]);
+						int n = JOptionPane.showOptionDialog(new JFrame(),
+								"Add to favorites?", "",
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+								options, options[1]);
 						if(n == JOptionPane.OK_OPTION) {
-							DBConnect.deleteVehicle("DELETE FROM VehicleInfo WHERE listID = " + numss[i-1] + ";");
-							ViewListings view = new ViewListings(login);
-							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+							DBConnect.insertListing("INSERT INTO `History` (`listID`, `userID`, `favorite`) VALUES ("+numss[i-1]+", '"+login+"', 1);");
+							btnAdd.setEnabled(false);
 						}
-						
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			});
+			if(exists.length > 0) btnAdd.setEnabled(false);
+			else btnAdd.setEnabled(true);
 			JLabel label = new JLabel(i+". ");
 			label.setBounds(0, 0+(100*(i-1)), 17, 14);
 			
@@ -134,7 +143,7 @@ public class ViewListings extends JPanel {
 			panel.add(lblFuelType);
 			panel.add(lblVin);
 			panel.add(lblFormFactor);
-			panel.add(btnDelete);
+			panel.add(btnAdd);
 			panel.add(label_3);
 			panel.add(label_1);
 			panel.add(label_2);
@@ -145,4 +154,5 @@ public class ViewListings extends JPanel {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
+
 }
