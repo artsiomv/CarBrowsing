@@ -50,8 +50,9 @@ public class CreateListing extends JPanel {
 		lblCreateNewListing.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblCreateNewListing.setBounds(10, 11, 311, 31);
 		panel.add(lblCreateNewListing);
-		
-		final int num = DBConnect.getVehicleCount( "SELECT COUNT(*) FROM VehicleInfo;");
+
+		final int num = DBConnect.getVehicleCount( "SELECT listID FROM VehicleInfo ORDER BY listID DESC LIMIT 1;");
+
 		JButton btnOk = new JButton("Create");
 		btnOk.setBounds(24, 407, 89, 23);
 		btnOk.addActionListener(new ActionListener() {

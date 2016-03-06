@@ -100,7 +100,7 @@ public class SearchResult extends JPanel {
 			lblFuelType.setBounds(517, 38+(100*(i-1)), 109, 14);
 			
 			JLabel lblVin = new JLabel("VIN#: " + DBConnect.selectQuery("SELECT vin FROM VehicleInfo WHERE listID = " + numss[i-1] +";", "vin"));
-			lblVin.setBounds(131, 61+(100*(i-1)), 87, 14);
+			lblVin.setBounds(22, 61+(100*(i-1)), 196, 14);
 			
 			JLabel lblFormFactor = new JLabel("Form Factor: " + DBConnect.selectQuery("SELECT formFactor FROM VehicleInfo WHERE listID = " + numss[i-1] +";", "formFactor"));
 			lblFormFactor.setBounds(304, 61+(100*(i-1)), 120, 14);
