@@ -61,6 +61,26 @@ public class ViewListings extends JPanel {
 					}
 				}
 			});
+			
+			JButton btnEdit = new JButton("EDIT");
+			btnEdit.setBounds(620, 57+(100*(i-1)), 100, 23);
+			btnEdit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+						Object[] options = { "Yes", "No" };
+					    int n = JOptionPane.showOptionDialog(new JFrame(),
+					            "Are you sure?", "",
+					            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+					            options, options[1]);
+						if(n == JOptionPane.OK_OPTION) {
+							try {
+								Edit edit = new Edit(login, numss[i-1]);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+						}
+				}
+			});
+			
 			JLabel label = new JLabel(i+". ");
 			label.setBounds(0, 0+(100*(i-1)), 17, 14);
 			
@@ -135,6 +155,7 @@ public class ViewListings extends JPanel {
 			panel.add(lblVin);
 			panel.add(lblFormFactor);
 			panel.add(btnDelete);
+			panel.add(btnEdit);
 			panel.add(label_3);
 			panel.add(label_1);
 			panel.add(label_2);
