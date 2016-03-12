@@ -108,4 +108,36 @@ public class DBConnect {
 		stmt = Conn.createStatement();
 		stmt.executeUpdate(sql);
 	}
+	
+	public static String selectQuery(String queryString, String name) throws SQLException {
+		String sql = queryString;
+		Statement stmt = null;
+		stmt = Conn.createStatement();
+		ResultSet rset = stmt.executeQuery(sql);
+		String res = null;
+		while(rset.next()){
+			res = rset.getString(name);
+		}
+		return res;
+	}
+	
+	public static int getVehicleCount(String queryString) throws SQLException {
+		String sql = queryString;
+		Statement stmt = null;
+		stmt = Conn.createStatement();
+		ResultSet rset = stmt.executeQuery(sql);
+		int res = 0;
+		while(rset.next()){
+			res = rset.getInt(1);
+		}
+		return res;
+	}
+	
+	public static void deleteVehicle(String queryString) throws SQLException {
+		String sql = queryString;
+		Statement stmt = null;
+		stmt = Conn.createStatement();
+		stmt.executeUpdate(sql);
+	}
+	
 }
