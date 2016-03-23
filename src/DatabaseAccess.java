@@ -4,7 +4,7 @@ import java.sql.SQLException;
 public class DatabaseAccess {
 	String driver = "com.mysql.jdbc.Driver";
 	static DBConnect db = new DBConnect(""
-			+ "jdbc:mysql://71.231.50.191/"
+			+ "jdbc:mysql://73.239.204.41/"
 			+ "445Project", "selector", "database"
 			);	
 	public static UserDB [] GetUsers () {
